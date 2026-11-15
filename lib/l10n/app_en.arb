@@ -1,0 +1,265 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Kora Balance",
+  "brandName": "KORA",
+  "brandTagline": "TEAM BALANCER",
+  "homeIntro": "Rank your {rosterSize} players from 1 to 6 and get {teamCount} evenly matched teams of {teamSize}. No more one-sided games.",
+  "@homeIntro": {
+    "placeholders": {
+      "rosterSize": { "type": "int" },
+      "teamCount": { "type": "int" },
+      "teamSize": { "type": "int" }
+    }
+  },
+  "statPlayers": "Players",
+  "statTeams": "Teams",
+  "statSkillRanks": "Skill ranks",
+  "start": "Start",
+  "continueReady": "Continue – line-up ready",
+  "continueSelected": "Continue ({selected}/{required} selected)",
+  "@continueSelected": {
+    "placeholders": {
+      "selected": { "type": "int" },
+      "required": { "type": "int" }
+    }
+  },
+  "playersSaved": "{count, plural, =1{1 player saved on this device} other{{count} players saved on this device}}",
+  "@playersSaved": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "switchLanguage": "العربية",
+  "changeLanguage": "Change language",
+
+  "playersTitle": "Players",
+  "menuMore": "More",
+  "menuFillSample": "Fill with sample players",
+  "menuSortBySkill": "Sort by skill",
+  "menuClearSelection": "Clear selection",
+  "menuDeleteAll": "Delete all players",
+  "selectionLimitReached": "{required} players are already selected. Deselect someone first.",
+  "@selectionLimitReached": {
+    "placeholders": { "required": { "type": "int" } }
+  },
+  "playerDeleted": "{name} deleted from the pool",
+  "@playerDeleted": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "undo": "UNDO",
+  "sampleAdded": "{count, plural, =0{No sample players added.} =1{Added 1 sample player.} other{Added {count} sample players.}}",
+  "@sampleAdded": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "deleteAllTitle": "Delete all players?",
+  "deleteAllMessage": "All {count} saved players will be removed from this device.",
+  "@deleteAllMessage": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "deleteAllConfirm": "Delete all",
+  "cancel": "Cancel",
+  "noPlayersMatch": "No players match.",
+  "searchPlayers": "Search players",
+  "clearSearch": "Clear search",
+  "filterAll": "All {count}",
+  "@filterAll": { "placeholders": { "count": { "type": "int" } } },
+  "filterSelected": "Selected {count}",
+  "@filterSelected": { "placeholders": { "count": { "type": "int" } } },
+  "filterBench": "Not selected {count}",
+  "@filterBench": { "placeholders": { "count": { "type": "int" } } },
+  "poolHint": "Tap a player to select or deselect · swipe to delete",
+  "add": "Add",
+  "generateTeams": "Generate Teams",
+  "generateProgress": "Generate ({selected}/{required})",
+  "@generateProgress": {
+    "placeholders": {
+      "selected": { "type": "int" },
+      "required": { "type": "int" }
+    }
+  },
+  "emptyTitle": "No players yet",
+  "emptyMessage": "Add everyone who plays with you and rank them from 1 (strongest) to 6. Each match, pick {required} of them.",
+  "@emptyMessage": {
+    "placeholders": { "required": { "type": "int" } }
+  },
+  "addFirstPlayer": "Add first player",
+  "trySample": "or try a sample squad",
+  "delete": "Delete",
+  "editPlayerTooltip": "Edit {name}",
+  "@editPlayerTooltip": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "sameName": "Same name",
+  "sameNameTooltip": "Another player has the same name. They will be numbered in the teams.",
+  "skillSummary": "{label} · {points} pts",
+  "@skillSummary": {
+    "placeholders": {
+      "label": { "type": "String" },
+      "points": { "type": "int" }
+    }
+  },
+
+  "lineupReadyTitle": "Line-up ready!",
+  "lineupReadyMessage": "{required} of your {poolSize} players selected. Ready to kick off.",
+  "@lineupReadyMessage": {
+    "placeholders": {
+      "required": { "type": "int" },
+      "poolSize": { "type": "int" }
+    }
+  },
+  "buildPoolTitle": "Build your player pool",
+  "buildPoolMessage": "{missing, plural, =1{Add 1 more player. You can save as many as you like.} other{Add {missing} more players. You can save as many as you like.}}",
+  "@buildPoolMessage": {
+    "placeholders": { "missing": { "type": "int" } }
+  },
+  "pickPlayersTitle": "Pick today’s players",
+  "pickPlayersMessage": "Select {missing} more from your pool of {poolSize} players.",
+  "@pickPlayersMessage": {
+    "placeholders": {
+      "missing": { "type": "int" },
+      "poolSize": { "type": "int" }
+    }
+  },
+  "rankCount": "R{rank} ×{count}",
+  "@rankCount": {
+    "placeholders": {
+      "rank": { "type": "int" },
+      "count": { "type": "int" }
+    }
+  },
+
+  "addPlayerTitle": "Add player",
+  "editPlayerTitle": "Edit player",
+  "editPlayerSubtitle": "Update the name or skill level.",
+  "addPlayerSubtitle": "Saved to your player pool for future matches.",
+  "playerNameLabel": "Player name",
+  "duplicateNameHelper": "This name is already in the squad. That’s fine – they’ll be numbered, e.g. “{name} (2)”.",
+  "@duplicateNameHelper": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "skillLevelLabel": "Skill level",
+  "saveAndAddNext": "Save & add next",
+  "saveChanges": "Save changes",
+  "playerAdded": "{name} added to the pool",
+  "@playerAdded": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "nameErrorEmpty": "Please enter the player’s name",
+  "nameErrorTooLong": "Keep it under {max} characters",
+  "@nameErrorTooLong": {
+    "placeholders": { "max": { "type": "int" } }
+  },
+  "skillErrorMissing": "Pick a skill level from 1 (strongest) to 6",
+
+  "skillHint": "1 = strongest  ·  6 = weakest",
+  "skillSelectedSummary": "Rank {rank} · {label} · {points} strength pts",
+  "@skillSelectedSummary": {
+    "placeholders": {
+      "rank": { "type": "int" },
+      "label": { "type": "String" },
+      "points": { "type": "int" }
+    }
+  },
+  "skillSemantics": "Rank {rank}, {label}",
+  "@skillSemantics": {
+    "placeholders": {
+      "rank": { "type": "int" },
+      "label": { "type": "String" }
+    }
+  },
+  "skillElite": "Elite",
+  "skillExcellent": "Excellent",
+  "skillGood": "Good",
+  "skillAverage": "Average",
+  "skillDeveloping": "Developing",
+  "skillBeginner": "Beginner",
+
+  "matchDay": "Match Day",
+  "editPlayers": "Edit players",
+  "copyTeams": "Copy teams",
+  "teamsCopied": "Teams copied to clipboard",
+  "resetTitle": "Pick a new line-up?",
+  "resetMessage": "This clears the current selection of {required} players so you can choose again. Your saved players are kept.",
+  "@resetMessage": {
+    "placeholders": { "required": { "type": "int" } }
+  },
+  "reset": "Reset",
+  "edit": "Edit",
+  "regenerate": "Regenerate",
+  "copyHeader": "⚽ Kora – Match Day",
+  "copyTeamLine": "{team} (strength {strength})",
+  "@copyTeamLine": {
+    "placeholders": {
+      "team": { "type": "String" },
+      "strength": { "type": "int" }
+    }
+  },
+  "copyPlayerLine": "{name} – rank {rank}",
+  "@copyPlayerLine": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "rank": { "type": "int" }
+    }
+  },
+  "generationFailed": "Couldn’t generate teams. Please check the selected players.",
+
+  "issuePoolTooSmall": "{missing, plural, =1{Add 1 more player – {required} are needed for {teamCount} teams.} other{Add {missing} more players – {required} are needed for {teamCount} teams.}}",
+  "@issuePoolTooSmall": {
+    "placeholders": {
+      "missing": { "type": "int" },
+      "required": { "type": "int" },
+      "teamCount": { "type": "int" }
+    }
+  },
+  "issueSelectMore": "{missing, plural, =1{Select 1 more player ({selected}/{required} selected).} other{Select {missing} more players ({selected}/{required} selected).}}",
+  "@issueSelectMore": {
+    "placeholders": {
+      "missing": { "type": "int" },
+      "selected": { "type": "int" },
+      "required": { "type": "int" }
+    }
+  },
+  "issueTooMany": "Deselect {extra} player(s) – exactly {required} are needed.",
+  "@issueTooMany": {
+    "placeholders": {
+      "extra": { "type": "int" },
+      "required": { "type": "int" }
+    }
+  },
+  "issueInvalidName": "One of the selected players has an invalid name.",
+
+  "drawingTitle": "Balancing the squads…",
+  "drawingSubtitle": "Comparing every fair combination",
+
+  "teamName": "Team {letter}",
+  "@teamName": {
+    "placeholders": { "letter": { "type": "String" } }
+  },
+  "teamLetter": "{index, select, 0{A} 1{B} 2{C} 3{D} 4{E} other{?}}",
+  "@teamLetter": {
+    "placeholders": { "index": { "type": "String" } }
+  },
+  "teamSubtitle": "Avg rank {average} · {count} players",
+  "@teamSubtitle": {
+    "placeholders": {
+      "average": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "strengthLabel": "STRENGTH",
+
+  "ratingPerfectTitle": "Perfect Balance",
+  "ratingPerfectDescription": "All teams have exactly the same strength.",
+  "ratingExcellentTitle": "Excellent Balance",
+  "ratingExcellentDescription": "Teams are separated by a single point.",
+  "ratingGoodTitle": "Good Balance",
+  "ratingGoodDescription": "Only a small strength gap between teams.",
+  "ratingBestPossibleTitle": "Best Possible Balance",
+  "ratingBestPossibleDescription": "This squad’s skill mix doesn’t allow a closer split.",
+  "balanceLabel": "BALANCE",
+  "strengthGap": "{spread, plural, =1{Strength gap: 1 pt · mathematically optimal split} other{Strength gap: {spread} pts · mathematically optimal split}}",
+  "@strengthGap": {
+    "placeholders": { "spread": { "type": "int" } }
+  },
+
+  "sampleNames": "Ahmed,Omar,Youssef,Karim,Mostafa,Hassan,Ali,Mahmoud,Tarek,Amr,Khaled,Ziad,Hamza,Adam,Nour,Seif,Yassin,Marwan,Hesham,Sherif,Fady,Bassem,Walid,Ibrahim,Mazen,Hady,Ramy,Sameh"
+}
