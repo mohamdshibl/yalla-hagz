@@ -82,6 +82,39 @@ class TeamGenerationResult {
     );
   }
 
+  /// Returns a copy where [incoming] (a bench player) takes the exact slot
+  /// of the player with [outgoingId]. Every other player stays put.
+  /// Throws [ArgumentError] if the outgoing player isn't in a team or the
+  /// incoming one already is.
+  TeamGenerationResult substitutePlayer(String outgoingId, Player incoming) {
+    final teamIndex = teamIndexOf(outgoingId);
+    if (teamIndex < 0) {
+      throw ArgumentError('The outgoing player must be in a team.');
+    }
+    if (teamIndexOf(incoming.id) >= 0) {
+      throw ArgumentError('${incoming.name} is already playing.');
+    }
+    return TeamGenerationResult(
+      teams: [
+        for (var i = 0; i < teams.length; i++)
+          i == teamIndex
+              ? Team(
+                  index: teams[i].index,
+                  players: [
+                    for (final p in teams[i].players)
+                      p.id == outgoingId ? incoming : p,
+                  ],
+                )
+              : teams[i],
+      ],
+      generatedAt: generatedAt,
+      isEdited: true,
+    );
+  }
+
+  /// Every player currently in a team.
+  Iterable<Player> get allPlayers => teams.expand((t) => t.players);
+
   /// Label-independent fingerprint of who plays with whom. Two results with
   /// the same signature contain the same groups of players.
   String get signature {

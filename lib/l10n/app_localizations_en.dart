@@ -331,7 +331,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get swapHint =>
-      'Tap a player, then a player on another team to swap them.';
+      'Tap two players on different teams to swap them · long-press a player to bring on a substitute.';
 
   @override
   String swapPickTarget(String name) {
@@ -345,6 +345,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancelSwap => 'Cancel swap';
+
+  @override
+  String get substitute => 'Sub';
+
+  @override
+  String substituteTitle(String name) {
+    return 'Substitute $name';
+  }
+
+  @override
+  String get substituteSubtitle =>
+      'Pick a bench player to take this exact spot. Everyone else stays on their team.';
+
+  @override
+  String get benchEmpty =>
+      'No bench players. Add more players to your pool from the Players screen.';
+
+  @override
+  String playerSubstituted(String incoming, String outgoing) {
+    return '$incoming comes on for $outgoing';
+  }
 
   @override
   String get copyHeader => '⚽ Kora – Match Day';

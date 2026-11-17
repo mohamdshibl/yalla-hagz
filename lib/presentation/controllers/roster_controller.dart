@@ -262,6 +262,44 @@ class RosterController extends ChangeNotifier {
     return edited;
   }
 
+  /// Pool players who are not playing in [result], best substitutes for
+  /// [outgoing] first (closest skill rank, then name).
+  List<Player> benchFor(TeamGenerationResult result, Player outgoing) {
+    final playing = result.allPlayers.map((p) => p.id).toSet();
+    return _players.where((p) => !playing.contains(p.id)).toList()
+      ..sort((a, b) {
+        final byGap = (a.skill.rank - outgoing.skill.rank).abs().compareTo(
+          (b.skill.rank - outgoing.skill.rank).abs(),
+        );
+        if (byGap != 0) return byGap;
+        final byRank = a.skill.rank.compareTo(b.skill.rank);
+        return byRank != 0
+            ? byRank
+            : a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
+  }
+
+  /// Replaces [outgoingId] with the bench player [incomingId] in the same
+  /// team slot, without re-balancing. The match selection is updated too,
+  /// so going back to the setup screen shows the new line-up.
+  TeamGenerationResult substitutePlayer(
+    TeamGenerationResult result,
+    String outgoingId,
+    String incomingId,
+  ) {
+    final incoming = _players.firstWhere(
+      (p) => p.id == incomingId,
+      orElse: () => throw ArgumentError.value(incomingId, 'incomingId'),
+    );
+    final edited = result.substitutePlayer(outgoingId, incoming);
+    _selectedIds
+      ..remove(outgoingId)
+      ..add(incomingId);
+    _onChanged();
+    _lastResult = edited; // _onChanged clears it.
+    return edited;
+  }
+
   // ---------------------------------------------------------------------------
   // Internals
   // ---------------------------------------------------------------------------

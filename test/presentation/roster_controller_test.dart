@@ -46,7 +46,9 @@ void main() {
     c.toggleSelection(dropped.id);
     c.toggleSelection(picked.id);
 
-    final ids = c.generateTeams().teams
+    final ids = c
+        .generateTeams()
+        .teams
         .expand((t) => t.players)
         .map((p) => p.id)
         .toSet();
@@ -94,4 +96,31 @@ void main() {
     expect(c.isSelected(player), isTrue);
     expect(c.players[3], player);
   });
+
+  test(
+    'substituting swaps the selection and lists the closest bench first',
+    () {
+      final c = newController();
+      addPlayers(c, 21); // 18 selected, P18–P20 on the bench
+      final result = c.generateTeams();
+      final out = result.teams[0].players.first;
+
+      final bench = c.benchFor(result, out);
+      expect(bench, hasLength(3));
+      final gaps = [
+        for (final p in bench) (p.skill.rank - out.skill.rank).abs(),
+      ];
+      expect(gaps, orderedEquals(List.of(gaps)..sort()));
+
+      final incoming = bench.first;
+      final edited = c.substitutePlayer(result, out.id, incoming.id);
+
+      expect(edited.teams[0].players.first, incoming);
+      expect(c.isSelected(incoming), isTrue);
+      expect(c.isSelected(out), isFalse);
+      expect(c.selectedCount, 18);
+      expect(c.lastResult, same(edited));
+      expect(c.benchFor(edited, incoming).map((p) => p.id), contains(out.id));
+    },
+  );
 }

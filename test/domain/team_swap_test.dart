@@ -53,4 +53,32 @@ void main() {
     );
     expect(() => result.swapPlayers(team[0].id, 'nope'), throwsArgumentError);
   });
+
+  group('substitutePlayer', () {
+    const sub = Player(id: 'bench', name: 'Bench', skill: SkillLevel.good);
+
+    test('puts the bench player in the exact slot, nobody else moves', () {
+      final out = result.teams[1].players[2];
+      final edited = result.substitutePlayer(out.id, sub);
+
+      expect(edited.isEdited, isTrue);
+      expect(edited.teamIndexOf(out.id), -1);
+      expect(edited.teams[1].players[2], sub);
+      for (var t = 0; t < 3; t++) {
+        for (var i = 0; i < 6; i++) {
+          if (t == 1 && i == 2) continue;
+          expect(edited.teams[t].players[i], result.teams[t].players[i]);
+        }
+      }
+    });
+
+    test('rejects unknown outgoing or already-playing incoming players', () {
+      final playing = result.teams[0].players.first;
+      expect(() => result.substitutePlayer('nope', sub), throwsArgumentError);
+      expect(
+        () => result.substitutePlayer(result.teams[1].players[0].id, playing),
+        throwsArgumentError,
+      );
+    });
+  });
 }

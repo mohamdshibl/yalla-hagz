@@ -14,6 +14,7 @@ import '../widgets/drawing_view.dart';
 import '../widgets/pitch_background.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/reveal_transition.dart';
+import '../widgets/substitute_sheet.dart';
 import '../widgets/team_card.dart';
 
 class TeamResultsScreen extends StatefulWidget {
@@ -149,6 +150,61 @@ class _TeamResultsScreenState extends State<TeamResultsScreen>
       );
   }
 
+  Future<void> _openSubstitute(Player outgoing) async {
+    final result = _result;
+    if (result == null) return;
+    HapticFeedback.selectionClick();
+    setState(() => _swapSourceId = null);
+
+    final incoming = await showSubstituteSheet(
+      context,
+      outgoing: outgoing,
+      bench: _roster.benchFor(result, outgoing),
+      displayNameOf: _roster.displayNameOf,
+    );
+    // Ignore if dismissed or the line-up changed while the sheet was open.
+    if (incoming == null || !mounted || !identical(_result, result)) return;
+    _substitute(result, outgoing.id, incoming.id, showUndo: true);
+  }
+
+  void _substitute(
+    TeamGenerationResult result,
+    String outgoingId,
+    String incomingId, {
+    required bool showUndo,
+  }) {
+    final outgoing = _findPlayer(outgoingId)!;
+    final edited = _roster.substitutePlayer(result, outgoingId, incomingId);
+    HapticFeedback.lightImpact();
+    setState(() {
+      _result = edited;
+      _swapSourceId = null;
+    });
+    if (!showUndo) return;
+
+    final l10n = context.l10n;
+    final incoming = _findPlayer(incomingId)!;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.playerSubstituted(
+              _roster.displayNameOf(incoming),
+              _roster.displayNameOf(outgoing),
+            ),
+          ),
+          action: SnackBarAction(
+            label: l10n.undo,
+            onPressed: () {
+              if (!mounted || !identical(_result, edited)) return;
+              _substitute(edited, incomingId, outgoingId, showUndo: false);
+            },
+          ),
+        ),
+      );
+  }
+
   Future<void> _reset() async {
     final l10n = context.l10n;
     final confirmed = await showConfirmDialog(
@@ -228,6 +284,11 @@ class _TeamResultsScreenState extends State<TeamResultsScreen>
                     null => null,
                   },
                   onPlayerTap: _onPlayerTap,
+                  onPlayerLongPress: _openSubstitute,
+                  onSubstituteSelected: () {
+                    final player = _findPlayer(_swapSourceId);
+                    if (player != null) _openSubstitute(player);
+                  },
                   onCancelSwap: () => setState(() => _swapSourceId = null),
                 )
               : DrawingView(
@@ -256,6 +317,8 @@ class _ResultsList extends StatelessWidget {
     required this.selectedPlayerId,
     required this.swapSourceName,
     required this.onPlayerTap,
+    required this.onPlayerLongPress,
+    required this.onSubstituteSelected,
     required this.onCancelSwap,
   });
 
@@ -265,6 +328,8 @@ class _ResultsList extends StatelessWidget {
   final String? selectedPlayerId;
   final String? swapSourceName;
   final ValueChanged<Player> onPlayerTap;
+  final ValueChanged<Player> onPlayerLongPress;
+  final VoidCallback onSubstituteSelected;
   final VoidCallback onCancelSwap;
 
   @override
@@ -279,7 +344,11 @@ class _ResultsList extends StatelessWidget {
         const SizedBox(height: 12),
         RevealTransition(
           animation: reveal.interval(0.1, 0.35),
-          child: _SwapHint(sourceName: swapSourceName, onCancel: onCancelSwap),
+          child: _SwapHint(
+            sourceName: swapSourceName,
+            onSubstitute: onSubstituteSelected,
+            onCancel: onCancelSwap,
+          ),
         ),
         const SizedBox(height: 12),
         for (final team in result.teams)
@@ -301,6 +370,7 @@ class _ResultsList extends StatelessWidget {
                     reveal: teamReveal,
                     selectedPlayerId: selectedPlayerId,
                     onPlayerTap: onPlayerTap,
+                    onPlayerLongPress: onPlayerLongPress,
                   ),
                 );
               },
@@ -312,9 +382,14 @@ class _ResultsList extends StatelessWidget {
 }
 
 class _SwapHint extends StatelessWidget {
-  const _SwapHint({required this.sourceName, required this.onCancel});
+  const _SwapHint({
+    required this.sourceName,
+    required this.onSubstitute,
+    required this.onCancel,
+  });
 
   final String? sourceName;
+  final VoidCallback onSubstitute;
   final VoidCallback onCancel;
 
   @override
@@ -354,6 +429,12 @@ class _SwapHint extends StatelessWidget {
               ),
             ),
           ),
+          if (active)
+            TextButton.icon(
+              onPressed: onSubstitute,
+              icon: const Icon(Icons.event_seat_rounded, size: 18),
+              label: Text(l10n.substitute),
+            ),
           if (active)
             IconButton(
               tooltip: l10n.cancelSwap,

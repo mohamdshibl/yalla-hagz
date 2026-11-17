@@ -8,8 +8,8 @@ import 'reveal_transition.dart';
 import 'skill_badge.dart';
 
 /// A team "kit card": coloured header with strength, followed by players
-/// that pop in one after another as [reveal] runs. When [onPlayerTap] is
-/// set, rows are tappable (used to swap players between teams).
+/// that pop in one after another as [reveal] runs. When [onPlayerTap] /
+/// [onPlayerLongPress] are set, rows are interactive (swap / substitute).
 class TeamCard extends StatelessWidget {
   const TeamCard({
     super.key,
@@ -19,6 +19,7 @@ class TeamCard extends StatelessWidget {
     required this.reveal,
     this.selectedPlayerId,
     this.onPlayerTap,
+    this.onPlayerLongPress,
   });
 
   final Team team;
@@ -27,6 +28,7 @@ class TeamCard extends StatelessWidget {
   final Animation<double> reveal;
   final String? selectedPlayerId;
   final ValueChanged<Player>? onPlayerTap;
+  final ValueChanged<Player>? onPlayerLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +129,9 @@ class TeamCard extends StatelessWidget {
                       onTap: onPlayerTap == null
                           ? null
                           : () => onPlayerTap!(team.players[i]),
+                      onLongPress: onPlayerLongPress == null
+                          ? null
+                          : () => onPlayerLongPress!(team.players[i]),
                     ),
                   ),
               ],
@@ -182,6 +187,7 @@ class _TeamPlayerRow extends StatelessWidget {
     required this.color,
     this.selected = false,
     this.onTap,
+    this.onLongPress,
   });
 
   final int number;
@@ -190,6 +196,7 @@ class _TeamPlayerRow extends StatelessWidget {
   final Color color;
   final bool selected;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +204,7 @@ class _TeamPlayerRow extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkWell(
         onTap: onTap,
+        onLongPress: onLongPress,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           decoration: BoxDecoration(

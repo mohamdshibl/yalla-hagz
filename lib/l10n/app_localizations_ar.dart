@@ -339,7 +339,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regenerate => 'إعادة التوزيع';
 
   @override
-  String get swapHint => 'اضغط على لاعب، ثم على لاعب من فريق آخر لتبديلهما.';
+  String get swapHint =>
+      'اضغط على لاعبَين من فريقين مختلفين لتبديلهما · اضغط مطولًا على لاعب لإدخال بديل.';
 
   @override
   String swapPickTarget(String name) {
@@ -353,6 +354,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancelSwap => 'إلغاء التبديل';
+
+  @override
+  String get substitute => 'بديل';
+
+  @override
+  String substituteTitle(String name) {
+    return 'استبدال $name';
+  }
+
+  @override
+  String get substituteSubtitle =>
+      'اختر لاعبًا احتياطيًا ليأخذ مكانه بالضبط. باقي اللاعبين يبقون في فرقهم.';
+
+  @override
+  String get benchEmpty =>
+      'لا يوجد لاعبون احتياطيون. أضف لاعبين آخرين من شاشة اللاعبين.';
+
+  @override
+  String playerSubstituted(String incoming, String outgoing) {
+    return 'دخل $incoming بدلًا من $outgoing';
+  }
 
   @override
   String get copyHeader => '⚽ كورة – يوم المباراة';

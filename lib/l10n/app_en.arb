@@ -185,7 +185,7 @@
   "reset": "Reset",
   "edit": "Edit",
   "regenerate": "Regenerate",
-  "swapHint": "Tap a player, then a player on another team to swap them.",
+  "swapHint": "Tap two players on different teams to swap them · long-press a player to bring on a substitute.",
   "swapPickTarget": "Now tap a player on another team to swap with {name}.",
   "@swapPickTarget": {
     "placeholders": { "name": { "type": "String" } }
@@ -198,6 +198,20 @@
     }
   },
   "cancelSwap": "Cancel swap",
+  "substitute": "Sub",
+  "substituteTitle": "Substitute {name}",
+  "@substituteTitle": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "substituteSubtitle": "Pick a bench player to take this exact spot. Everyone else stays on their team.",
+  "benchEmpty": "No bench players. Add more players to your pool from the Players screen.",
+  "playerSubstituted": "{incoming} comes on for {outgoing}",
+  "@playerSubstituted": {
+    "placeholders": {
+      "incoming": { "type": "String" },
+      "outgoing": { "type": "String" }
+    }
+  },
   "copyHeader": "⚽ Kora – Match Day",
   "copyTeamLine": "{team} (strength {strength})",
   "@copyTeamLine": {

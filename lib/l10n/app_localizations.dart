@@ -605,7 +605,7 @@ abstract class AppLocalizations {
   /// No description provided for @swapHint.
   ///
   /// In en, this message translates to:
-  /// **'Tap a player, then a player on another team to swap them.'**
+  /// **'Tap two players on different teams to swap them · long-press a player to bring on a substitute.'**
   String get swapHint;
 
   /// No description provided for @swapPickTarget.
@@ -625,6 +625,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel swap'**
   String get cancelSwap;
+
+  /// No description provided for @substitute.
+  ///
+  /// In en, this message translates to:
+  /// **'Sub'**
+  String get substitute;
+
+  /// No description provided for @substituteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Substitute {name}'**
+  String substituteTitle(String name);
+
+  /// No description provided for @substituteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a bench player to take this exact spot. Everyone else stays on their team.'**
+  String get substituteSubtitle;
+
+  /// No description provided for @benchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No bench players. Add more players to your pool from the Players screen.'**
+  String get benchEmpty;
+
+  /// No description provided for @playerSubstituted.
+  ///
+  /// In en, this message translates to:
+  /// **'{incoming} comes on for {outgoing}'**
+  String playerSubstituted(String incoming, String outgoing);
 
   /// No description provided for @copyHeader.
   ///
