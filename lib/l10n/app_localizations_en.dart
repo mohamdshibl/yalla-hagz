@@ -330,6 +330,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get regenerate => 'Regenerate';
 
   @override
+  String get swapHint =>
+      'Tap a player, then a player on another team to swap them.';
+
+  @override
+  String swapPickTarget(String name) {
+    return 'Now tap a player on another team to swap with $name.';
+  }
+
+  @override
+  String playersSwapped(String first, String second) {
+    return 'Swapped $first ↔ $second';
+  }
+
+  @override
+  String get cancelSwap => 'Cancel swap';
+
+  @override
   String get copyHeader => '⚽ Kora – Match Day';
 
   @override
@@ -439,6 +456,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'This squad’s skill mix doesn’t allow a closer split.';
 
   @override
+  String get ratingUnevenTitle => 'Uneven Teams';
+
+  @override
+  String get ratingUnevenDescription =>
+      'Your changes left a big strength gap. Regenerate for the fairest split.';
+
+  @override
   String get balanceLabel => 'BALANCE';
 
   @override
@@ -448,6 +472,17 @@ class AppLocalizationsEn extends AppLocalizations {
       locale: localeName,
       other: 'Strength gap: $spread pts · mathematically optimal split',
       one: 'Strength gap: 1 pt · mathematically optimal split',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String strengthGapEdited(int spread) {
+    String _temp0 = intl.Intl.pluralLogic(
+      spread,
+      locale: localeName,
+      other: 'Strength gap: $spread pts · edited by hand',
+      one: 'Strength gap: 1 pt · edited by hand',
     );
     return '$_temp0';
   }

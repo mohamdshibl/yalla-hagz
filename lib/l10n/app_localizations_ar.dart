@@ -339,6 +339,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regenerate => 'إعادة التوزيع';
 
   @override
+  String get swapHint => 'اضغط على لاعب، ثم على لاعب من فريق آخر لتبديلهما.';
+
+  @override
+  String swapPickTarget(String name) {
+    return 'اضغط الآن على لاعب من فريق آخر لتبديله مع $name.';
+  }
+
+  @override
+  String playersSwapped(String first, String second) {
+    return 'تم تبديل $first ↔ $second';
+  }
+
+  @override
+  String get cancelSwap => 'إلغاء التبديل';
+
+  @override
   String get copyHeader => '⚽ كورة – يوم المباراة';
 
   @override
@@ -452,6 +468,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'مستويات هذه التشكيلة لا تسمح بتوزيع أقرب من ذلك.';
 
   @override
+  String get ratingUnevenTitle => 'فرق غير متكافئة';
+
+  @override
+  String get ratingUnevenDescription =>
+      'تعديلاتك تركت فارقًا كبيرًا في القوة. أعد التوزيع للحصول على أعدل تقسيم.';
+
+  @override
   String get balanceLabel => 'التوازن';
 
   @override
@@ -464,6 +487,20 @@ class AppLocalizationsAr extends AppLocalizations {
       two: 'فارق القوة: نقطتان · أفضل توزيع ممكن رياضيًا',
       one: 'فارق القوة: نقطة واحدة · أفضل توزيع ممكن رياضيًا',
       zero: 'فارق القوة: صفر · أفضل توزيع ممكن رياضيًا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String strengthGapEdited(int spread) {
+    String _temp0 = intl.Intl.pluralLogic(
+      spread,
+      locale: localeName,
+      other: 'فارق القوة: $spread نقطة · معدّل يدويًا',
+      few: 'فارق القوة: $spread نقاط · معدّل يدويًا',
+      two: 'فارق القوة: نقطتان · معدّل يدويًا',
+      one: 'فارق القوة: نقطة واحدة · معدّل يدويًا',
+      zero: 'فارق القوة: صفر · معدّل يدويًا',
     );
     return '$_temp0';
   }

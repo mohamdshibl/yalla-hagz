@@ -46,9 +46,8 @@ class RosterController extends ChangeNotifier {
   int get poolSize => _players.length;
 
   /// Players picked for the next match, in pool order.
-  List<Player> get selectedPlayers => List.unmodifiable(
-    _players.where((p) => _selectedIds.contains(p.id)),
-  );
+  List<Player> get selectedPlayers =>
+      List.unmodifiable(_players.where((p) => _selectedIds.contains(p.id)));
   int get selectedCount => _selectedIds.length;
   int get requiredCount => AppConstants.rosterSize;
   int get remainingSelections => max(0, requiredCount - selectedCount);
@@ -249,6 +248,18 @@ class RosterController extends ChangeNotifier {
     final result = _balancer.generate(selectedPlayers, avoid: _lastResult);
     _lastResult = result;
     return result;
+  }
+
+  /// Swaps two players between teams in [result] (normally [lastResult])
+  /// and remembers the edited line-up, so "Regenerate" avoids it.
+  TeamGenerationResult swapPlayers(
+    TeamGenerationResult result,
+    String firstId,
+    String secondId,
+  ) {
+    final edited = result.swapPlayers(firstId, secondId);
+    _lastResult = edited;
+    return edited;
   }
 
   // ---------------------------------------------------------------------------

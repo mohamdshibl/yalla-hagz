@@ -34,6 +34,9 @@ class _TeamResultsScreenState extends State<TeamResultsScreen>
   bool _isDrawing = true;
   int _drawCount = 0;
 
+  /// Player picked as the first half of a swap.
+  String? _swapSourceId;
+
   @override
   void initState() {
     super.initState();
@@ -76,9 +79,74 @@ class _TeamResultsScreenState extends State<TeamResultsScreen>
     setState(() {
       _result = result;
       _isDrawing = false;
+      _swapSourceId = null;
       _drawCount++;
     });
     _reveal.forward(from: 0);
+  }
+
+  Player? _findPlayer(String? id) {
+    final result = _result;
+    if (id == null || result == null) return null;
+    for (final team in result.teams) {
+      for (final player in team.players) {
+        if (player.id == id) return player;
+      }
+    }
+    return null;
+  }
+
+  void _onPlayerTap(Player player) {
+    final result = _result;
+    if (result == null) return;
+    final sourceId = _swapSourceId;
+
+    // First pick, re-pick within the same team, or un-pick.
+    if (sourceId == null ||
+        sourceId == player.id ||
+        result.teamIndexOf(sourceId) == result.teamIndexOf(player.id)) {
+      HapticFeedback.selectionClick();
+      setState(() => _swapSourceId = sourceId == player.id ? null : player.id);
+      return;
+    }
+    _swap(result, sourceId, player.id, showUndo: true);
+  }
+
+  void _swap(
+    TeamGenerationResult result,
+    String firstId,
+    String secondId, {
+    required bool showUndo,
+  }) {
+    final edited = _roster.swapPlayers(result, firstId, secondId);
+    HapticFeedback.lightImpact();
+    setState(() {
+      _result = edited;
+      _swapSourceId = null;
+    });
+    if (!showUndo) return;
+
+    final l10n = context.l10n;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.playersSwapped(
+              _roster.displayNameOf(_findPlayer(firstId)!),
+              _roster.displayNameOf(_findPlayer(secondId)!),
+            ),
+          ),
+          action: SnackBarAction(
+            label: l10n.undo,
+            onPressed: () {
+              // Only undo if nothing else changed the line-up meanwhile.
+              if (!mounted || !identical(_result, edited)) return;
+              _swap(edited, firstId, secondId, showUndo: false);
+            },
+          ),
+        ),
+      );
   }
 
   Future<void> _reset() async {
@@ -154,6 +222,13 @@ class _TeamResultsScreenState extends State<TeamResultsScreen>
                   result: result,
                   reveal: _reveal,
                   displayNameOf: _roster.displayNameOf,
+                  selectedPlayerId: _swapSourceId,
+                  swapSourceName: switch (_findPlayer(_swapSourceId)) {
+                    final player? => _roster.displayNameOf(player),
+                    null => null,
+                  },
+                  onPlayerTap: _onPlayerTap,
+                  onCancelSwap: () => setState(() => _swapSourceId = null),
                 )
               : DrawingView(
                   key: const ValueKey('drawing'),
@@ -178,11 +253,19 @@ class _ResultsList extends StatelessWidget {
     required this.result,
     required this.reveal,
     required this.displayNameOf,
+    required this.selectedPlayerId,
+    required this.swapSourceName,
+    required this.onPlayerTap,
+    required this.onCancelSwap,
   });
 
   final TeamGenerationResult result;
   final Animation<double> reveal;
   final String Function(Player player) displayNameOf;
+  final String? selectedPlayerId;
+  final String? swapSourceName;
+  final ValueChanged<Player> onPlayerTap;
+  final VoidCallback onCancelSwap;
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +276,12 @@ class _ResultsList extends StatelessWidget {
           animation: reveal.interval(0, 0.3),
           child: BalanceIndicator(result: result),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
+        RevealTransition(
+          animation: reveal.interval(0.1, 0.35),
+          child: _SwapHint(sourceName: swapSourceName, onCancel: onCancelSwap),
+        ),
+        const SizedBox(height: 12),
         for (final team in result.teams)
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -211,12 +299,70 @@ class _ResultsList extends StatelessWidget {
                     color: AppColors.teamColor(team.index),
                     displayNameOf: displayNameOf,
                     reveal: teamReveal,
+                    selectedPlayerId: selectedPlayerId,
+                    onPlayerTap: onPlayerTap,
                   ),
                 );
               },
             ),
           ),
       ],
+    );
+  }
+}
+
+class _SwapHint extends StatelessWidget {
+  const _SwapHint({required this.sourceName, required this.onCancel});
+
+  final String? sourceName;
+  final VoidCallback onCancel;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final name = sourceName;
+    final active = name != null;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      constraints: const BoxConstraints(minHeight: 48),
+      padding: const EdgeInsetsDirectional.fromSTEB(14, 4, 4, 4),
+      decoration: BoxDecoration(
+        color: active
+            ? AppColors.accent.withValues(alpha: 0.12)
+            : AppColors.surface,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: active
+              ? AppColors.accent.withValues(alpha: 0.5)
+              : AppColors.outline,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.swap_horiz_rounded,
+            size: 20,
+            color: active ? AppColors.accent : AppColors.textSecondary,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              active ? l10n.swapPickTarget(name) : l10n.swapHint,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: active ? null : AppColors.textSecondary,
+              ),
+            ),
+          ),
+          if (active)
+            IconButton(
+              tooltip: l10n.cancelSwap,
+              visualDensity: VisualDensity.compact,
+              icon: const Icon(Icons.close_rounded, size: 18),
+              onPressed: onCancel,
+            ),
+        ],
+      ),
     );
   }
 }

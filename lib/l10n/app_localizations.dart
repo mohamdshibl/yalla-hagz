@@ -602,6 +602,30 @@ abstract class AppLocalizations {
   /// **'Regenerate'**
   String get regenerate;
 
+  /// No description provided for @swapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a player, then a player on another team to swap them.'**
+  String get swapHint;
+
+  /// No description provided for @swapPickTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Now tap a player on another team to swap with {name}.'**
+  String swapPickTarget(String name);
+
+  /// No description provided for @playersSwapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Swapped {first} ↔ {second}'**
+  String playersSwapped(String first, String second);
+
+  /// No description provided for @cancelSwap.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel swap'**
+  String get cancelSwap;
+
   /// No description provided for @copyHeader.
   ///
   /// In en, this message translates to:
@@ -734,6 +758,18 @@ abstract class AppLocalizations {
   /// **'This squad’s skill mix doesn’t allow a closer split.'**
   String get ratingBestPossibleDescription;
 
+  /// No description provided for @ratingUnevenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Uneven Teams'**
+  String get ratingUnevenTitle;
+
+  /// No description provided for @ratingUnevenDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes left a big strength gap. Regenerate for the fairest split.'**
+  String get ratingUnevenDescription;
+
   /// No description provided for @balanceLabel.
   ///
   /// In en, this message translates to:
@@ -745,6 +781,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{spread, plural, =1{Strength gap: 1 pt · mathematically optimal split} other{Strength gap: {spread} pts · mathematically optimal split}}'**
   String strengthGap(int spread);
+
+  /// No description provided for @strengthGapEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'{spread, plural, =1{Strength gap: 1 pt · edited by hand} other{Strength gap: {spread} pts · edited by hand}}'**
+  String strengthGapEdited(int spread);
 
   /// No description provided for @sampleNames.
   ///

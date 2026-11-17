@@ -35,6 +35,7 @@ extension BalanceRatingL10n on BalanceRating {
     BalanceRating.excellent => l10n.ratingExcellentTitle,
     BalanceRating.good => l10n.ratingGoodTitle,
     BalanceRating.bestPossible => l10n.ratingBestPossibleTitle,
+    BalanceRating.uneven => l10n.ratingUnevenTitle,
   };
 
   String description(AppLocalizations l10n) => switch (this) {
@@ -42,6 +43,7 @@ extension BalanceRatingL10n on BalanceRating {
     BalanceRating.excellent => l10n.ratingExcellentDescription,
     BalanceRating.good => l10n.ratingGoodDescription,
     BalanceRating.bestPossible => l10n.ratingBestPossibleDescription,
+    BalanceRating.uneven => l10n.ratingUnevenDescription,
   };
 }
 

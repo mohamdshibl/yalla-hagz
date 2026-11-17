@@ -15,6 +15,7 @@ class BalanceIndicator extends StatelessWidget {
     BalanceRating.excellent => AppColors.accent,
     BalanceRating.good => AppColors.warning,
     BalanceRating.bestPossible => const Color(0xFFFB923C),
+    BalanceRating.uneven => AppColors.danger,
   };
 
   @override
@@ -115,7 +116,9 @@ class BalanceIndicator extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  l10n.strengthGap(spread),
+                  result.isEdited
+                      ? l10n.strengthGapEdited(spread)
+                      : l10n.strengthGap(spread),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: AppColors.textSecondary,
                   ),

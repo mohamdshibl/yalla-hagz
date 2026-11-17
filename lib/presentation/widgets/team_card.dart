@@ -8,7 +8,8 @@ import 'reveal_transition.dart';
 import 'skill_badge.dart';
 
 /// A team "kit card": coloured header with strength, followed by players
-/// that pop in one after another as [reveal] runs.
+/// that pop in one after another as [reveal] runs. When [onPlayerTap] is
+/// set, rows are tappable (used to swap players between teams).
 class TeamCard extends StatelessWidget {
   const TeamCard({
     super.key,
@@ -16,12 +17,16 @@ class TeamCard extends StatelessWidget {
     required this.color,
     required this.displayNameOf,
     required this.reveal,
+    this.selectedPlayerId,
+    this.onPlayerTap,
   });
 
   final Team team;
   final Color color;
   final String Function(Player player) displayNameOf;
   final Animation<double> reveal;
+  final String? selectedPlayerId;
+  final ValueChanged<Player>? onPlayerTap;
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +123,10 @@ class TeamCard extends StatelessWidget {
                       name: displayNameOf(team.players[i]),
                       player: team.players[i],
                       color: color,
+                      selected: team.players[i].id == selectedPlayerId,
+                      onTap: onPlayerTap == null
+                          ? null
+                          : () => onPlayerTap!(team.players[i]),
                     ),
                   ),
               ],
@@ -171,17 +180,43 @@ class _TeamPlayerRow extends StatelessWidget {
     required this.name,
     required this.player,
     required this.color,
+    this.selected = false,
+    this.onTap,
   });
 
   final int number;
   final String name;
   final Player player;
   final Color color;
+  final bool selected;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          decoration: BoxDecoration(
+            color: selected ? color.withValues(alpha: 0.18) : null,
+            border: BorderDirectional(
+              start: BorderSide(
+                color: selected ? color : Colors.transparent,
+                width: 3,
+              ),
+            ),
+          ),
+          child: _buildRow(context),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRow(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+      padding: const EdgeInsetsDirectional.fromSTEB(13, 7, 16, 7),
       child: Row(
         children: [
           Container(
@@ -208,9 +243,9 @@ class _TeamPlayerRow extends StatelessWidget {
               name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           Text(
@@ -222,6 +257,10 @@ class _TeamPlayerRow extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           SkillBadge(skill: player.skill, size: 30),
+          if (selected) ...[
+            const SizedBox(width: 8),
+            Icon(Icons.swap_vert_rounded, color: color, size: 20),
+          ],
         ],
       ),
     );

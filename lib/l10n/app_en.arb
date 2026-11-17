@@ -185,6 +185,19 @@
   "reset": "Reset",
   "edit": "Edit",
   "regenerate": "Regenerate",
+  "swapHint": "Tap a player, then a player on another team to swap them.",
+  "swapPickTarget": "Now tap a player on another team to swap with {name}.",
+  "@swapPickTarget": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "playersSwapped": "Swapped {first} ↔ {second}",
+  "@playersSwapped": {
+    "placeholders": {
+      "first": { "type": "String" },
+      "second": { "type": "String" }
+    }
+  },
+  "cancelSwap": "Cancel swap",
   "copyHeader": "⚽ Kora – Match Day",
   "copyTeamLine": "{team} (strength {strength})",
   "@copyTeamLine": {
@@ -255,9 +268,15 @@
   "ratingGoodDescription": "Only a small strength gap between teams.",
   "ratingBestPossibleTitle": "Best Possible Balance",
   "ratingBestPossibleDescription": "This squad’s skill mix doesn’t allow a closer split.",
+  "ratingUnevenTitle": "Uneven Teams",
+  "ratingUnevenDescription": "Your changes left a big strength gap. Regenerate for the fairest split.",
   "balanceLabel": "BALANCE",
   "strengthGap": "{spread, plural, =1{Strength gap: 1 pt · mathematically optimal split} other{Strength gap: {spread} pts · mathematically optimal split}}",
   "@strengthGap": {
+    "placeholders": { "spread": { "type": "int" } }
+  },
+  "strengthGapEdited": "{spread, plural, =1{Strength gap: 1 pt · edited by hand} other{Strength gap: {spread} pts · edited by hand}}",
+  "@strengthGapEdited": {
     "placeholders": { "spread": { "type": "int" } }
   },
 
